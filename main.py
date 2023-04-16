@@ -31,7 +31,7 @@ def send_message_to_gpt(prompt, messages):
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=messages + [message],
-        max_tokens=500,
+        max_tokens=50,
         n=1,
         stop=None,
         temperature=0.01,
@@ -73,7 +73,7 @@ def main():
     "content": "You are an AI model assisting in solving the CartPole problem. Your goal is to help balance a pole on a moving cart by providing the optimal action at each step. The cart can move in only two directions: left or right. When responding, please use the terms '[left]' or '[right]' to indicate your suggested action, making it easier for the cart to follow your advice."
     }
     
-    obs_desc_text = Path('observation_description.txt').read_text()
+    obs_desc_text = Path('action_and_observation_description.txt').read_text()
     obs_description_message = {
         "role": "user",
         "content": obs_desc_text
@@ -103,7 +103,7 @@ def main():
     env.close()
     print(f"Average reward: {np.mean(total_rewards)}")
 
-    frames += [np.zeros_like(frame)]*12
+    frames += [np.ones_like(frame)*200]*12
 
     # Save the frames as a GIF
     imageio.mimsave("cartpole_episode.gif", frames, fps=24)

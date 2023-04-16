@@ -1,3 +1,16 @@
+Action Space
+
+The action is a 1D ndarray with shape (1,), representing the direction of the force applied to the cart. There are two possible values:
+
+0   Apply force to move the cart to the left
+
+1   Apply force to move the cart to the right
+
+Note: The velocity change caused by the applied force is not constant, as it depends on the pole's angle. The varying center of gravity of the pole affects the amount of energy needed to move the cart underneath it.
+
+
+Observation Space
+
 The observation space in the CartPole problem consists of four elements, each representing a specific attribute of the cart and pole system. These elements are described below:
 
 1.    Cart Position: The horizontal position of the cart, which can range from -4.8 to 4.8 units. However, the episode will terminate if the cart goes outside the range of -2.4 to 2.4 units.
