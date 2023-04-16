@@ -23,33 +23,33 @@ def draw_arrow(frame, cart_position, action):
     cv2.arrowedLine(frame, arrow_start, arrow_end, (0, 255, 0), 2, tipLength=0.5)
 
 
-def send_message_to_gpt(prompt, messages):
+def send_message_to_gpt(prompt_message, messages, model_name):
     """Send a message to a GPT model and return its response."""
-    
-    message = {"role": "user", "content": prompt}
-    messages.append(message)
 
     response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=messages,
-        max_tokens=50,
+        model=model_name,
+        messages = messages + [prompt_message],
+        max_tokens=500,
         n=1,
         stop=None,
         temperature=0.01,
     )
 
-    message = response['choices'][0]['message']
-
-    messages.append(dict(message))
-    
-    return message['content']
+    answer_message = dict(response['choices'][0]['message'])
+    return answer_message
 
 
 def gpt4_cartpole_action(observation, messages):
     """Request a GPT for the next action given the observation."""
+
+    prompt = f"Given the Cartpole observations {observation} and the strategy provided, should the cart move [left] or [right]? Give me your chain of thoughts. Be concise!"
+    prompt_message = {"role": "user", "content": prompt}
+    answer_message = send_message_to_gpt(prompt_message, messages, model_name='gpt-3.5-turbo')
     
-    prompt = f"Given the Cartpole observations {observation}, the previous observations and the strategy provided, should the cart move [left] or [right]? Answer with only [left] or [right]! ([left]/[right])"
-    answer = send_message_to_gpt(prompt, messages)
+    prompt = f"Given these thoughts: '''{answer_message['content']}''', how should we now push the cart: [left] or [right]? ([left]/[right])"
+    prompt_message = {"role": "user", "content": prompt}
+    answer_message = send_message_to_gpt(prompt_message, messages, model_name='gpt-3.5-turbo')
+    answer = answer_message['content']
     print(answer)
     
     if '[left]' in answer:
@@ -99,6 +99,9 @@ def main():
             frames.append(frame)
             observation, reward, done, *_ = env.step(action)
             episode_reward += reward
+
+            # Save the frames as a GIF
+            imageio.mimsave("cartpole_episode.gif", frames + [np.ones_like(frame)*200]*12, fps=24)
 
         total_rewards.append(episode_reward)
         print(f"Episode {episode + 1}: {episode_reward}")
