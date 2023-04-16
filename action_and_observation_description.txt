@@ -22,3 +22,15 @@ The observation space in the CartPole problem consists of four elements, each re
 4.    Pole Angular Velocity: The rate at which the pole's angle changes. There is no specified minimum or maximum value for this attribute.
 
 These four elements form a 1-dimensional array (ndarray) of shape (4,) that represents the current state of the CartPole system. It is important to note that while the observation space defines the possible values for each element, some of these values will cause the episode to end prematurely, as indicated in the notes above.
+
+
+Strategy
+
+A simple strategy to balance the pole on the cart is to apply a force in the direction of the pole's tilt. This strategy aims to counteract the pole's tilt by moving the cart underneath the pole's center of gravity. Here's a step-by-step approach:
+
+1.    Observe the pole's angle (θ) relative to the vertical position.
+2.    If the pole is tilting to the right (θ > 0), apply a force to move the cart to the right (Action: 1).
+3.    If the pole is tilting to the left (θ < 0), apply a force to move the cart to the left (Action: 0).
+4.    Continuously monitor the pole's angle and adjust the cart's movement accordingly.
+
+While this strategy can help maintain balance for a short period, it may not be sufficient for long-term stability or complex scenarios. More advanced control strategies, such as PID controllers or reinforcement learning algorithms, can be used to improve the cart's performance in balancing the pole.

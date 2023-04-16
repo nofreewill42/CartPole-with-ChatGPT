@@ -48,7 +48,7 @@ def send_message_to_gpt(prompt, messages):
 def gpt4_cartpole_action(observation, messages):
     """Request a GPT for the next action given the observation."""
     
-    prompt = f"Given the Cartpole observations {observation}, should the cart move [left] or [right]? Answer with only [left] or [right]! ([left]/[right])"
+    prompt = f"Given the Cartpole observations {observation}, the previous observations and the strategy provided, should the cart move [left] or [right]? Answer with only [left] or [right]! ([left]/[right])"
     answer = send_message_to_gpt(prompt, messages)
     print(answer)
     
