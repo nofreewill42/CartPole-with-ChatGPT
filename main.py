@@ -42,13 +42,15 @@ def send_message_to_gpt(prompt_message, messages, model_name):
 def gpt4_cartpole_action(observation, messages):
     """Request a GPT for the next action given the observation."""
 
-    prompt = f"Given the Cartpole observations {observation} and the strategy provided, should the cart move [left] or [right]? Give me your chain of thoughts. Be concise!"
+    prompt = f"Given the Cartpole observations {observation} and the strategy provided, give me your chain of thoughts on what should be done. Give me the values that you need, write them down, be concise!"
     prompt_message = {"role": "user", "content": prompt}
     answer_message = send_message_to_gpt(prompt_message, messages, model_name='gpt-3.5-turbo')
+    answer = answer_message['content']
+    print(answer)
     
     prompt = f"Given these thoughts: '''{answer_message['content']}''', how should we now push the cart: [left] or [right]? ([left]/[right])"
     prompt_message = {"role": "user", "content": prompt}
-    answer_message = send_message_to_gpt(prompt_message, messages, model_name='gpt-3.5-turbo')
+    answer_message = send_message_to_gpt(prompt_message, messages, model_name='gpt-4')
     answer = answer_message['content']
     print(answer)
     
