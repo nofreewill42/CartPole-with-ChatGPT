@@ -1,6 +1,7 @@
 import os
 import gym
 import cv2
+import random
 import openai
 import imageio
 import numpy as np
@@ -26,11 +27,10 @@ def send_message_to_gpt(prompt, messages):
     """Send a message to a GPT model and return its response."""
     
     message = {"role": "user", "content": prompt}
-    messages.append(message)
 
     response = openai.ChatCompletion.create(
         model="gpt-4",
-        messages=messages,
+        messages=messages + [message],
         max_tokens=500,
         n=1,
         stop=None,
@@ -54,7 +54,8 @@ def gpt4_cartpole_action(observation, messages):
     elif '[right]' in answer:
         return 1
     else:
-        raise ValueError("Unexpected response from GPT")
+        print('Wrong answer, so we just flip a coin.')
+        return 1*(random.random()>0.5) #raise ValueError("Unexpected response from GPT")
 
 
 def main():
