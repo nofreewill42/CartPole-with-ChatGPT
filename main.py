@@ -27,10 +27,11 @@ def send_message_to_gpt(prompt, messages):
     """Send a message to a GPT model and return its response."""
     
     message = {"role": "user", "content": prompt}
+    messages.append(message)
 
     response = openai.ChatCompletion.create(
         model="gpt-4",
-        messages=messages + [message],
+        messages=messages,
         max_tokens=50,
         n=1,
         stop=None,
@@ -38,6 +39,8 @@ def send_message_to_gpt(prompt, messages):
     )
 
     message = response['choices'][0]['message']
+
+    messages.append(dict(message))
     
     return message['content']
 
