@@ -73,7 +73,13 @@ def main():
     "content": "You are an AI model assisting in solving the CartPole problem. Your goal is to help balance a pole on a moving cart by providing the optimal action at each step. The cart can move in only two directions: left or right. When responding, please use the terms '[left]' or '[right]' to indicate your suggested action, making it easier for the cart to follow your advice."
     }
     
-    messages = [system_message]
+    obs_desc_text = Path('observation_description.txt').read_text()
+    obs_description_message = {
+        "role": "user",
+        "content": obs_desc_text
+    }
+    
+    messages = [system_message, obs_description_message]
 
     for episode in range(1):
         observation = env.reset()[0]

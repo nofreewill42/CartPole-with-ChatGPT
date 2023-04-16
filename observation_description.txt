@@ -1,0 +1,11 @@
+The observation space in the CartPole problem consists of four elements, each representing a specific attribute of the cart and pole system. These elements are described below:
+
+1.    Cart Position: The horizontal position of the cart, which can range from -4.8 to 4.8 units. However, the episode will terminate if the cart goes outside the range of -2.4 to 2.4 units.
+
+2.    Cart Velocity: The horizontal speed of the cart. There is no specified minimum or maximum value for this attribute.
+
+3.    Pole Angle: The angle of the pole with respect to the vertical position, measured in radians. The angle can range from approximately -0.418 radians (-24 degrees) to 0.418 radians (24 degrees). The episode will terminate if the pole angle goes outside the range of -0.2095 to 0.2095 radians (±12 degrees).
+
+4.    Pole Angular Velocity: The rate at which the pole's angle changes. There is no specified minimum or maximum value for this attribute.
+
+These four elements form a 1-dimensional array (ndarray) of shape (4,) that represents the current state of the CartPole system. It is important to note that while the observation space defines the possible values for each element, some of these values will cause the episode to end prematurely, as indicated in the notes above.
